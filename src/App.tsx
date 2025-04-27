@@ -1,13 +1,29 @@
 import { FormFieldsProps } from './types/form.types';
-
 import { useForm } from 'react-hook-form';
+import { calculateServiceTime } from './services/calculator';
+import { useState } from 'react';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 function App() {
   const { register, handleSubmit } = useForm<FormFieldsProps>();
-  const getYear = new Date().getFullYear();
+  const [results, setResults] = useState<ReturnType<
+    typeof calculateServiceTime
+  > | null>(null);
 
   const onSubmit = (data: FormFieldsProps) => {
-    console.log(data);
+    const calculatedResults = calculateServiceTime(data);
+    setResults(calculatedResults);
+  };
+
+  const formatDate = (date: Date) => {
+    return format(date, 'dd/MM/yyyy', { locale: ptBR });
+  };
+
+  const formatTimeInYearsAndDays = (days: number) => {
+    const years = Math.floor(days / 365);
+    const remainingDays = days % 365;
+    return `${years} anos e ${remainingDays} dias (${days} dias)`;
   };
 
   return (
@@ -22,29 +38,41 @@ function App() {
         </p>
       </header>
 
-      <h3 className='text-lg font-semibold text-slate-700 mb-6 flex justify-center'>
-        Informar os dados anteriores / posteriores a 01/01/2022
-      </h3>
-
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div className='2xl:max-w-1/2 xl:max-w-1/2 lg:max-w-1/2 w-full p-6 mx-auto'>
+          <div className='w-full flex flex-col justify-center'>
+            <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+              Data de ingresso no CBMMG:
+            </label>
+
+            <input
+              type='date'
+              // max={new Date('2021-12-31').toISOString().split('T')[0]}
+              {...register('dataIngresso', { required: true })}
+              className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400'
+            />
+            <span className='text-sm text-slate-500'>* Dia / Mês / Ano</span>
+          </div>
+        </div>
+
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mx-6 mb-10'>
           <div className='bg-slate-100 p-6 rounded-md shadow-md w-full'>
             <h4 className='text-md font-semibold text-orange-400 mb-4 text-center'>
               Dados anteriores a 01/01/2022
             </h4>
             <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
-              <div className='xl:col-span-6 col-span-12'>
+              {/* <div className='xl:col-span-6 col-span-12'>
                 <label className='block text-sm text-slate-700 mb-1 font-semibold'>
                   Data de ingresso no CBMMG:
                 </label>
                 <input
                   type='date'
-                  max={new Date('2021, 12, 31').toISOString().split('T')[0]}
-                  {...register('dataIngresso')}
+                  max={new Date('2021-12-31').toISOString().split('T')[0]}
+                  {...register('dataIngresso', { required: true })}
                   className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400'
                 />
                 <p className='text-sm text-slate-500'>* Dia / Mês / Ano</p>
-              </div>
+              </div> */}
               <div className='xl:col-span-6 col-span-12'>
                 <label className='block text-sm text-slate-700 mb-1 font-semibold'>
                   Férias Anuais
@@ -86,12 +114,6 @@ function App() {
                   />
                   <input
                     type='number'
-                    {...register('tempoAverbadoMeses')}
-                    className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400'
-                    placeholder='Meses'
-                  />
-                  <input
-                    type='number'
                     {...register('tempoAverbadoDias')}
                     className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400'
                     placeholder='Dias'
@@ -101,8 +123,7 @@ function App() {
                   * Tempo averbado de outros órgãos
                 </p>
               </div>
-
-              <div className='xl:col-span-12 col-span-12'>
+              <div className='xl:col-span-6 col-span-12'>
                 <label className='block text-sm text-slate-700 mb-1 font-semibold'>
                   Dias a serem descontados
                 </label>
@@ -124,18 +145,6 @@ function App() {
               Dados posteriores a 01/01/2022
             </h4>
             <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
-              <div className='xl:col-span-6 col-span-12'>
-                <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                  Data de ingresso no CBMMG:
-                </label>
-                <input
-                  type='date'
-                  max={new Date('2021, 12, 31').toISOString().split('T')[0]}
-                  {...register('afterDataIngresso')}
-                  className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400'
-                />
-                <p className='text-sm text-slate-500'>* Dia / Mês / Ano</p>
-              </div>
               <div className='xl:col-span-6 col-span-12'>
                 <label className='block text-sm text-slate-700 mb-1 font-semibold'>
                   Férias Anuais
@@ -177,23 +186,14 @@ function App() {
                   />
                   <input
                     type='number'
-                    {...register('afterTempoAverbadoMeses')}
-                    className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400'
-                    placeholder='Meses'
-                  />
-                  <input
-                    type='number'
                     {...register('afterTempoAverbadoDias')}
                     className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400'
                     placeholder='Dias'
                   />
                 </div>
-                <p className='text-sm text-slate-500'>
-                  * Tempo averbado de outros órgãos
-                </p>
+                <p className='text-sm text-slate-500'>* Militares QOS</p>
               </div>
-
-              <div className='xl:col-span-12 col-span-12'>
+              <div className='xl:col-span-6 col-span-12'>
                 <label className='block text-sm text-slate-700 mb-1 font-semibold'>
                   Dias a serem descontados
                 </label>
@@ -221,97 +221,114 @@ function App() {
             </button>
           </div>
         </div>
-        <h3 className='text-lg font-semibold text-orange-500 my-6 flex justify-center'>
-          Tabela do pedágio
-        </h3>
 
-        <div className='bg-white p-6 rounded-md shadow-md w-full mb-6'>
-          <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
-            <div className='xl:col-span-3 md:col-span-4 col-span-12'>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Tempo faltante da reserva remunerada e abono permanência
-              </label>
-              resultado
+        {results && (
+          <>
+            <h3 className='text-lg font-semibold text-orange-500 my-6 flex justify-center'>
+              Tabela do pedágio
+            </h3>
+
+            <div className='bg-white p-6 rounded-md shadow-md w-full mb-6'>
+              <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
+                <div className='xl:col-span-3 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Tempo faltante da reserva remunerada e abono permanência
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {results.tempoFaltanteReserva} dias
+                  </p>
+                </div>
+                <div className='xl:col-span-3 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Pedágio para reserva voluntária e abono permanência
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {results.pedagioReservaVoluntaria} dias
+                  </p>
+                </div>
+                <div className='xl:col-span-3 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Tempo de serviço exigido para o militar
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {formatTimeInYearsAndDays(results.tempoServicoExigido)}
+                  </p>
+                </div>
+                <div className='xl:col-span-3 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Efetivo serviço exigido para a militar (mulher)
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {formatTimeInYearsAndDays(results.efetivoServicoExigido)}
+                  </p>
+                </div>
+                <div className='xl:col-span-3 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Tempo faltante para transferência compulsória para reserva
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {results.tempoFaltanteCompulsoria} dias
+                  </p>
+                </div>
+                <div className='xl:col-span-3 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Pedágio para reserva compulsória
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {results.pedagioCompulsoria} dias
+                  </p>
+                </div>
+                <div className='xl:col-span-3 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Tempo de efetivo serviço máximo permitido
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {formatTimeInYearsAndDays(results.tempoEfetivoMaximo)}
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className='xl:col-span-3 md:col-span-4 col-span-12'>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Pedágio para reserva voluntária e abono permanência
-              </label>
-              resultado
-            </div>
+            <h3 className='text-lg font-semibold text-orange-500 my-6 flex justify-center'>
+              Resultados
+            </h3>
 
-            <div className='xl:col-span-3 md:col-span-4 col-span-12'>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Tempo de serviço exigido para o militar
-              </label>
-              resultado
+            <div className='bg-white p-6 rounded-md shadow-md w-full mb-6'>
+              <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
+                <div className='xl:col-span-4 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Data da reserva voluntária e jus ao abono permanência
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {formatDate(results.dataReservaVoluntaria)}
+                  </p>
+                </div>
+                <div className='xl:col-span-4 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Data da reserva voluntária da militar (mulher)
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {formatDate(results.dataReservaVoluntariaMilitar)}
+                  </p>
+                </div>
+                <div className='xl:col-span-4 md:col-span-4 col-span-12'>
+                  <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                    Data da reserva compulsória
+                  </label>
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {formatDate(results.dataReservaCompulsoria)}
+                  </p>
+                </div>
+              </div>
             </div>
-
-            <div className='xl:col-span-3 md:col-span-4 col-span-12'>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Efetivo serviço exigido para a militar
-              </label>
-              resultado
-            </div>
-
-            <div className='xl:col-span-3 md:col-span-4 col-span-12'>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Tempo faltante para transferência compulsória para a reserva
-              </label>
-              resultado
-            </div>
-
-            <div className='xl:col-span-3 md:col-span-4 col-span-12'>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Pedágio para reserva compulsória
-              </label>
-              resultado
-            </div>
-
-            <div className='sm:col-span-2 lg:col-span-3 mb-12'>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Tempo de efetivo serviço máximo permitido
-              </label>
-              resultado
-            </div>
-          </div>
-        </div>
-
-        <h3 className='text-lg font-semibold text-slate-700 mb-4 flex justify-center'>
-          <span className='text-orange-500'>Resultados</span>
-        </h3>
-
-        <div className='bg-slate-100 p-6 rounded-md w-full mb-10'>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-            <div>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Data da reserva voluntária e jus ao abono permanência
-              </label>
-              resultado
-            </div>
-
-            <div>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Data da reserva voluntária da militar
-              </label>
-              resultado
-            </div>
-
-            <div>
-              <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                Data da reserva compulsória
-              </label>
-              resultado
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </form>
 
       <footer className='text-center text-sm p-4 bg-slate-300'>
         <div className='2xl:w-auto xl:w-auto 2xl:px-0 xl:px-0 w-full px-3'>
           <p className='text-slate-600 text-center text-sm'>
-            Copyright © {getYear} Jean Georges Hallal Junior.
+            Copyright © {new Date().getFullYear()} Jean Georges Hallal Junior.
           </p>
           <p className='text-slate-600 text-center text-xs pt-3'>
             Desenvolvido por
