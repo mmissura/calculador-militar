@@ -31,8 +31,9 @@ function App() {
 
   const formatTimeInYearsAndDays = (days: number) => {
     const years = Math.floor(days / 365);
-    const remainingDays = days % 365;
-    return `${years} anos e ${remainingDays} dias (${days} dias)`;
+    // const remainingDays = days % 365;
+    return `${years} anos (${days} dias)`;
+    // return `${years} anos e ${remainingDays} dias (${days} dias)`;
   };
 
   return (
@@ -149,8 +150,18 @@ function App() {
                 </p>
               </div>
               <div className='xl:col-span-6 col-span-12'>
-                <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Dias a serem descontados
+                  <CustomTooltip
+                    className='w-72'
+                    content='Informe a soma do tempo que o militar tenha que possa vir a ser descontado do tempo de serviço, como prisões, suspensões, faltas ao serviço, situações funcionais diversas, etc. Devem ser considerados apenas os descontos anteriores a 01/01/2022.
+'
+                  >
+                    <IoIosInformationCircleOutline
+                      size={18}
+                      data-popover-target='default-popover'
+                    />
+                  </CustomTooltip>
                 </label>
                 <input
                   type='number'
@@ -171,8 +182,17 @@ function App() {
             </h4>
             <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
               <div className='xl:col-span-6 col-span-12'>
-                <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Férias Anuais
+                  <CustomTooltip
+                    className='w-72'
+                    content='Informe a quantidade de dias de férias anuais não gozadas e convertidas após o início do período de transição.'
+                  >
+                    <IoIosInformationCircleOutline
+                      size={18}
+                      data-popover-target='default-popover'
+                    />
+                  </CustomTooltip>
                 </label>
                 <input
                   type='number'
@@ -185,8 +205,17 @@ function App() {
                 </p>
               </div>
               <div className='xl:col-span-6 col-span-12'>
-                <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Férias Prêmio
+                  <CustomTooltip
+                    className='w-72'
+                    content='Informe a quantidade, em dias, de férias-prêmio não gozadas nem convertidas em espécie. Devem ser considerados apenas os períodos adquiridos após o início do período de transição.'
+                  >
+                    <IoIosInformationCircleOutline
+                      size={18}
+                      data-popover-target='default-popover'
+                    />
+                  </CustomTooltip>
                 </label>
                 <input
                   type='number'
@@ -199,8 +228,17 @@ function App() {
                 </p>
               </div>
               <div className='xl:col-span-6 col-span-12'>
-                <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Tempo Averbado
+                  <CustomTooltip
+                    className='w-72'
+                    content='Este campo deve ser preenchido apenas pelos militares QOS, que possuem o direito de averbação conforme o tempo de efetivo serviço.'
+                  >
+                    <IoIosInformationCircleOutline
+                      size={18}
+                      data-popover-target='default-popover'
+                    />
+                  </CustomTooltip>
                 </label>
                 <div className='flex w-full gap-1'>
                   <input
@@ -219,8 +257,17 @@ function App() {
                 <p className='text-sm text-slate-500'>* Militares QOS</p>
               </div>
               <div className='xl:col-span-6 col-span-12'>
-                <label className='block text-sm text-slate-700 mb-1 font-semibold'>
+                <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Dias a serem descontados
+                  <CustomTooltip
+                    className='w-72'
+                    content='Informe a soma do tempo que o militar tenha que possa vir a ser descontado do tempo de serviço após o início do período de transição, como prisões, suspensões, faltas ao serviço, situações funcionais diversas, etc.'
+                  >
+                    <IoIosInformationCircleOutline
+                      size={18}
+                      data-popover-target='default-popover'
+                    />
+                  </CustomTooltip>
                 </label>
                 <input
                   type='number'
@@ -256,7 +303,7 @@ function App() {
               Tabela do pedágio
             </h3>
 
-            <div className='bg-white p-6 rounded-md shadow-md w-full mb-6'>
+            <div className='bg-slate-50 p-6 rounded-md w-full'>
               <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
                 <div className='xl:col-span-3 md:col-span-4 col-span-12'>
                   <label className='block text-sm text-slate-700 mb-1 font-semibold'>
@@ -319,11 +366,10 @@ function App() {
               </div>
             </div>
 
-            <h3 className='text-lg font-semibold text-orange-500 my-2 flex justify-center'>
-              Resultados
-            </h3>
-
-            <div className='bg-white p-6 rounded-md shadow-md w-full mb-6'>
+            <div className='bg-slate-100 p-6 rounded-md w-full'>
+              <h3 className='text-lg font-semibold text-orange-500 mb-2 flex justify-center'>
+                Resultados
+              </h3>
               <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
                 <div className='xl:col-span-4 md:col-span-4 col-span-12'>
                   <label className='block text-sm text-slate-700 mb-1 font-semibold'>
@@ -358,7 +404,7 @@ function App() {
         )}
       </form>
 
-      <footer className='text-center text-sm p-12 bg-slate-300'>
+      <footer className='text-center text-sm p-8 bg-white'>
         <div className='2xl:w-auto xl:w-auto 2xl:px-0 xl:px-0 w-full px-3'>
           <p className='text-slate-600 text-center text-sm mb-1'>
             Copyright © {new Date().getFullYear()} Jean Georges Hallal Junior.
