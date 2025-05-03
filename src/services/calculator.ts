@@ -1,4 +1,5 @@
-import { FormFieldsProps } from '../types/form.types';
+import { Schema } from '../schemas/form.schema';
+// import { FormFieldsProps } from '../types/form.types';
 import { addDays, parseISO, startOfDay } from 'date-fns';
 
 interface CalculatedResults {
@@ -14,13 +15,11 @@ interface CalculatedResults {
   dataReservaCompulsoria: Date;
 }
 
-export const calculateServiceTime = (
-  data: FormFieldsProps,
-): CalculatedResults => {
+export const calculateServiceTime = (data: Schema): CalculatedResults => {
   // Data de referência fixa
   const dataReferencia = startOfDay(parseISO('2022-01-01'));
   const dataIngresso = data.dataIngresso
-    ? startOfDay(parseISO(data.dataIngresso))
+    ? startOfDay(data.dataIngresso)
     : new Date();
 
   // Converter valores para números
