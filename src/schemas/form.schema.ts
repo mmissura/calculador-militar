@@ -1,11 +1,15 @@
 import { z } from 'zod';
 
-// export const formSchema = z.date().max(new Date('2019-12-17'), {
-//   message: 'Data deve ser menor que 17/12/2019',
-// });
-
 export const formSchema = z.object({
-  dataIngresso: z.string().date(),
+  dataIngresso: z.coerce
+    .date({
+      errorMap: () => ({
+        message: 'Dala Inválida',
+      }),
+    })
+    .max(new Date('2019-12-17'), {
+      message: 'A data máxima para ingresso é 17/12/2019',
+    }),
   feriasAnuais: z.string().optional(),
   feriasPremio: z.string().optional(),
   tempoAverbadoAnos: z.string().optional(),
