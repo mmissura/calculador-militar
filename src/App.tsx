@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { calculateServiceTime } from './services/calculator';
 import { useState } from 'react';
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { IoIosFemale, IoIosInformationCircleOutline } from 'react-icons/io';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,7 +24,6 @@ function App() {
   > | null>(null);
 
   const onSubmit = (data: Schema) => {
-    console.log('data', data);
     const calculatedResults = calculateServiceTime(data);
     setResults(calculatedResults);
 
@@ -34,17 +33,17 @@ function App() {
   };
 
   const formatDate = (date: Date) => {
-    return format(date, 'dd/MM/yyyy', { locale: ptBR });
+    return format(addDays(new Date(date), 1), 'dd/MM/yyyy', { locale: ptBR });
   };
 
   const formatTimeInYearsAndDays = (days: number) => {
     const years = Math.floor(days / 365);
-    // const remainingDays = days % 365;
-    return `${years} anos (${days} dias)`;
+    const remainingDays = days % 365;
+    // const remainMonths = Math.floor((days % 365.25) / 30.44);
+    // return `${years} anos (${days} dias)`;
     // return `${years} anos e ${remainingDays} dias (${days} dias)`;
+    return `${years} anos e ${remainingDays} dias`;
   };
-
-  console.log('erros', errors);
 
   return (
     <div className='w-full'>
@@ -379,7 +378,7 @@ function App() {
                   </label>
 
                   <p className='text-lg font-semibold text-orange-500'>
-                    {formatTimeInYearsAndDays(results.efetivoServicoExigido)}
+                    {results.efetivoServicoExigido}
                   </p>
                 </div>
               </div>

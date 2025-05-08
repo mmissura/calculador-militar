@@ -1,12 +1,11 @@
 import { Schema } from '../schemas/form.schema';
-// import { FormFieldsProps } from '../types/form.types';
-import { addDays, parseISO, startOfDay } from 'date-fns';
+import { addDays } from 'date-fns';
 
 interface CalculatedResults {
   tempoFaltanteReserva: number;
   pedagioReservaVoluntaria: number;
   tempoServicoExigido: number;
-  efetivoServicoExigido: number;
+  efetivoServicoExigido: number | string;
   tempoFaltanteCompulsoria: number;
   pedagioCompulsoria: number;
   tempoEfetivoMaximo: number;
@@ -17,10 +16,8 @@ interface CalculatedResults {
 
 export const calculateServiceTime = (data: Schema): CalculatedResults => {
   // Data de referência fixa
-  const dataReferencia = startOfDay(parseISO('2022-01-01'));
-  const dataIngresso = data.dataIngresso
-    ? startOfDay(data.dataIngresso)
-    : new Date();
+  const dataReferencia = new Date('2022-01-01');
+  const dataIngresso = new Date(data.dataIngresso);
 
   // Converter valores para números
   const feriasAnuais = Number(data.feriasAnuais) || 0;
@@ -92,7 +89,27 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
     return 10950;
   };
 
+  const getTempoTotalExigidoWoman = (tempoApurado: number): string => {
+    if (tempoApurado < 11) return '30 anos (10950 dias)';
+    if (tempoApurado < 12) return '29 anos e 8 meses (10825 dias)';
+    if (tempoApurado < 13) return '29 anos e 4 meses (10705 dias)';
+    if (tempoApurado < 14) return '29 anos (10585 dias)';
+    if (tempoApurado < 15) return '28 anos e 8 meses (10460 dias)';
+    if (tempoApurado < 16) return '28 anos e 4 meses (10340 dias)';
+    if (tempoApurado < 17) return '28 anos (10220 dias)';
+    if (tempoApurado < 18) return '27 anos e 8 meses (10095 dias)';
+    if (tempoApurado < 19) return '27 anos e 4 meses (9975 dias)';
+    if (tempoApurado < 20) return '27 anos (9855 dias)';
+    if (tempoApurado < 21) return '26 anos e 8 meses (9730 dias)';
+    if (tempoApurado < 22) return '26 anos e 4 meses (9610 dias)';
+    if (tempoApurado < 23) return '26 anos (9490 dias)';
+    if (tempoApurado < 24) return '25 anos e 8 meses (9365 dias)';
+    if (tempoApurado < 25) return '25 anos e 4 meses (9245 dias)';
+    return '';
+  };
+
   const tempoTotalExigido = getTempoTotalExigido(tempoApurado);
+  const tempoTotalExigidoWoman = getTempoTotalExigidoWoman(tempoApurado);
 
   // Cálculo do tempo exigido
   const tempoExigido = 10950 + pedagioTempoServico;
@@ -132,7 +149,7 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
     tempoFaltanteReserva: tempoFaltanteServico,
     pedagioReservaVoluntaria: pedagioTempoServico,
     tempoServicoExigido: tempoExigido,
-    efetivoServicoExigido: tempoTotalExigido,
+    efetivoServicoExigido: tempoTotalExigidoWoman,
     tempoFaltanteCompulsoria: tempoFaltanteEfetivoServico,
     pedagioCompulsoria: pedagioEfetivoServico,
     tempoEfetivoMaximo: tempoMaximo,
