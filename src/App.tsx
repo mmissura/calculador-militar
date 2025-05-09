@@ -33,7 +33,8 @@ function App() {
   };
 
   const formatDate = (date: Date) => {
-    return format(addDays(new Date(date), 1), 'dd/MM/yyyy', { locale: ptBR });
+    const getCustomDate = addDays(new Date(date), 1);
+    return format(getCustomDate, 'dd/MM/yyyy', { locale: ptBR });
   };
 
   const formatTimeInYearsAndDays = (days: number) => {
@@ -313,30 +314,44 @@ function App() {
 
         {results && (
           <>
-            <h3
-              className='text-lg font-semibold text-orange-500 my-2 flex justify-center scroll-mt-4'
-              id='result'
-            >
-              Tabela do pedágio
-            </h3>
-
             <div className='bg-slate-50 p-6 rounded-md w-full'>
+              <h3
+                className='text-lg font-semibold text-orange-500 my-2 flex justify-center scroll-mt-4'
+                id='result'
+              >
+                Tabela do pedágio
+              </h3>
               <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
                 <div className='xl:col-span-3 md:col-span-4 col-span-12'>
                   <label className='block text-sm text-slate-700 mb-1 font-semibold'>
                     Tempo faltante da reserva remunerada e abono permanência
                   </label>
-                  <p className='text-lg font-semibold text-orange-500'>
-                    {results.tempoFaltanteReserva} dias
-                  </p>
+
+                  {results.tempoFaltanteReserva <= 0 ? (
+                    <p className='text-sm font-semibold text-orange-500'>
+                      Militar já possui direito à transferência para reserva
+                      voluntária; nesse caso não há cálculo de pedágio.
+                    </p>
+                  ) : (
+                    <p className='text-lg font-semibold text-orange-500'>
+                      {results.tempoFaltanteReserva} dias
+                    </p>
+                  )}
                 </div>
                 <div className='xl:col-span-3 md:col-span-4 col-span-12'>
                   <label className='block text-sm text-slate-700 mb-1 font-semibold'>
                     Pedágio para reserva voluntária e abono permanência
                   </label>
-                  <p className='text-lg font-semibold text-orange-500'>
-                    {results.pedagioReservaVoluntaria} dias
-                  </p>
+                  {results.pedagioReservaVoluntaria <= 0 ? (
+                    <p className='text-sm font-semibold text-orange-500'>
+                      Militar já possui direito à transferência para reserva
+                      voluntária; nesse caso não há cálculo de pedágio.
+                    </p>
+                  ) : (
+                    <p className='text-lg font-semibold text-orange-500'>
+                      {results.pedagioReservaVoluntaria} dias
+                    </p>
+                  )}
                 </div>
                 <div className='xl:col-span-3 md:col-span-4 col-span-12'>
                   <label className='block text-sm text-slate-700 mb-1 font-semibold'>
@@ -376,10 +391,15 @@ function App() {
                     Efetivo serviço exigido para a militar (mulher)
                     <IoIosFemale size={20} className='text-pink-500' />
                   </label>
-
-                  <p className='text-lg font-semibold text-orange-500'>
-                    {results.efetivoServicoExigido}
-                  </p>
+                  {results.efetivoServicoExigido === 'Data já atingida' ? (
+                    <p className='text-sm font-semibold text-orange-500'>
+                      Data já atingida
+                    </p>
+                  ) : (
+                    <p className='text-lg font-semibold text-orange-500'>
+                      {results.efetivoServicoExigido}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -412,9 +432,15 @@ function App() {
                     <IoIosFemale size={20} className='text-pink-500' />
                   </label>
 
-                  <p className='text-lg font-semibold text-orange-500'>
-                    {formatDate(results.dataReservaVoluntariaMilitar)}
-                  </p>
+                  {results.efetivoServicoExigido === 'Data já atingida' ? (
+                    <p className='text-sm font-semibold text-orange-500'>
+                      Data já atingida
+                    </p>
+                  ) : (
+                    <p className='text-lg font-semibold text-orange-500'>
+                      {formatDate(results.dataReservaVoluntariaMilitar)}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

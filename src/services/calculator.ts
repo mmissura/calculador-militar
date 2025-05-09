@@ -105,7 +105,7 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
     if (tempoApurado < 23) return '26 anos (9490 dias)';
     if (tempoApurado < 24) return '25 anos e 8 meses (9365 dias)';
     if (tempoApurado < 25) return '25 anos e 4 meses (9245 dias)';
-    return '';
+    return 'Data já atingida';
   };
 
   const tempoTotalExigido = getTempoTotalExigido(tempoApurado);
