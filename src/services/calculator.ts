@@ -120,7 +120,7 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
   // Cálculo das datas
   const dataReservaVoluntaria = addDays(
     dataReferencia,
-    tempoFaltanteEfetivoServico +
+    tempoFaltanteServico +
       pedagioTempoServico -
       182 -
       (afterFeriasAnuais * 2 + afterFeriasPremio * 2) +
