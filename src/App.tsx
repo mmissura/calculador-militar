@@ -72,7 +72,7 @@ function App() {
               type='date'
               // max={new Date('2019-12-17').toISOString().split('T')[0]}
               {...register('dataIngresso')}
-              className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400 data-[error]:border-red-600'
+              className='w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400 data-[error]:border-red-600'
               data-error={errors && errors.dataIngresso}
             />
             <span className='text-sm text-slate-500'>* Dia / Mês / Ano</span>
@@ -358,7 +358,14 @@ function App() {
                     Tempo de serviço exigido para o militar
                   </label>
                   <p className='text-lg font-semibold text-orange-500'>
-                    {formatTimeInYearsAndDays(results.tempoServicoExigido)}
+                    {results.tempoFaltanteReserva <= 0 ? (
+                      <p className='text-sm font-semibold text-orange-500'>
+                        Militar já possui direito à transferência para reserva
+                        voluntária; nesse caso não há cálculo de pedágio.
+                      </p>
+                    ) : (
+                      formatTimeInYearsAndDays(results.tempoServicoExigido)
+                    )}
                   </p>
                 </div>
 
@@ -393,7 +400,8 @@ function App() {
                   </label>
                   {results.efetivoServicoExigido === 'Data já atingida' ? (
                     <p className='text-sm font-semibold text-orange-500'>
-                      Data já atingida
+                      Militar já possui direito à transferência para reserva
+                      voluntária; nesse caso não há cálculo de pedágio.
                     </p>
                   ) : (
                     <p className='text-lg font-semibold text-orange-500'>
@@ -414,7 +422,14 @@ function App() {
                     Data da reserva voluntária e jus ao abono permanência
                   </label>
                   <p className='text-lg font-semibold text-orange-500'>
-                    {formatDate(results.dataReservaVoluntaria)}
+                    {results.tempoFaltanteReserva <= 0 ? (
+                      <p className='text-sm font-semibold text-orange-500'>
+                        Militar já possui direito à transferência para reserva
+                        voluntária; nesse caso não há cálculo de pedágio.
+                      </p>
+                    ) : (
+                      formatDate(results.dataReservaVoluntaria)
+                    )}
                   </p>
                 </div>
 
@@ -434,7 +449,8 @@ function App() {
 
                   {results.efetivoServicoExigido === 'Data já atingida' ? (
                     <p className='text-sm font-semibold text-orange-500'>
-                      Data já atingida
+                      Militar já possui direito à transferência para reserva
+                      voluntária; nesse caso não há cálculo de pedágio.
                     </p>
                   ) : (
                     <p className='text-lg font-semibold text-orange-500'>
