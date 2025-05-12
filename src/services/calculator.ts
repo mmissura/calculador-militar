@@ -1,5 +1,5 @@
 import { Schema } from '../schemas/form.schema';
-import { addDays } from 'date-fns';
+import { addDays, isAfter } from 'date-fns';
 
 interface CalculatedResults {
   tempoFaltanteReserva: number;
@@ -154,7 +154,12 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
     pedagioCompulsoria: pedagioEfetivoServico,
     tempoEfetivoMaximo: tempoMaximo,
     dataReservaVoluntaria,
-    dataReservaVoluntariaMilitar,
+    dataReservaVoluntariaMilitar: isAfter(
+      dataReservaVoluntariaMilitar,
+      dataReservaVoluntaria,
+    )
+      ? dataReservaVoluntaria
+      : dataReservaVoluntariaMilitar,
     dataReservaCompulsoria,
   };
 };
