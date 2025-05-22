@@ -14,6 +14,7 @@ export const formSchema = z.object({
   feriasPremio: z.string().optional(),
   tempoAverbadoAnos: z.string().optional(),
   tempoAverbadoDias: z.string().optional(),
+  tempoAverbadoAnosUniversity: z.string().optional(),
   diasDesconto: z.string().optional(),
   afterFeriasAnuais: z.string().optional(),
   afterFeriasPremio: z.string().optional(),

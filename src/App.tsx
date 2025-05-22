@@ -90,7 +90,7 @@ function App() {
               Dados anteriores a 01/01/2022{' '}
             </h4>
             <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
-              <div className='xl:col-span-6 col-span-12'>
+              <div className='xl:col-span-4 col-span-12'>
                 <label className=' text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Férias Anuais{' '}
                   <CustomTooltip
@@ -113,7 +113,7 @@ function App() {
                   * Férias anuais na vantagem de forma simples
                 </p>
               </div>
-              <div className='xl:col-span-6 col-span-12'>
+              <div className='xl:col-span-4 col-span-12'>
                 <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Férias Prêmio
                   <CustomTooltip
@@ -134,6 +134,30 @@ function App() {
                 />
                 <p className='text-sm text-slate-500'>
                   * Férias-prêmio na vantagem de forma simples
+                </p>
+              </div>
+              <div className='xl:col-span-4 col-span-12'>
+                <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
+                  Dias a serem descontados
+                  <CustomTooltip
+                    className='w-72'
+                    content='Informe a soma do tempo que o militar tenha que possa vir a ser descontado do tempo de serviço, como prisões, suspensões, faltas ao serviço, situações funcionais diversas, etc. Devem ser considerados apenas os descontos anteriores a 01/01/2022.
+'
+                  >
+                    <IoIosInformationCircleOutline
+                      size={18}
+                      data-popover-target='default-popover'
+                    />
+                  </CustomTooltip>
+                </label>
+                <input
+                  type='number'
+                  {...register('diasDesconto')}
+                  className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400'
+                  placeholder='Dias'
+                />
+                <p className='text-sm text-slate-500'>
+                  * Verificar descontos legais
                 </p>
               </div>
               <div className='xl:col-span-6 col-span-12'>
@@ -167,9 +191,10 @@ function App() {
                   * Tempo averbado de outros órgãos
                 </p>
               </div>
+
               <div className='xl:col-span-6 col-span-12'>
                 <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
-                  Dias a serem descontados
+                  Tempo averbado universitário
                   <CustomTooltip
                     className='w-72'
                     content='Informe a soma do tempo que o militar tenha que possa vir a ser descontado do tempo de serviço, como prisões, suspensões, faltas ao serviço, situações funcionais diversas, etc. Devem ser considerados apenas os descontos anteriores a 01/01/2022.
@@ -183,12 +208,12 @@ function App() {
                 </label>
                 <input
                   type='number'
-                  {...register('diasDesconto')}
+                  {...register('tempoAverbadoAnosUniversity')}
                   className='block w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400'
-                  placeholder='Dias'
+                  placeholder='Anos'
                 />
                 <p className='text-sm text-slate-500'>
-                  * Verificar descontos legais
+                  * Exclusivo para militares QOS
                 </p>
               </div>
             </div>

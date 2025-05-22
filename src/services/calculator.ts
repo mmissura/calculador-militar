@@ -24,6 +24,8 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
   const feriasPremio = Number(data.feriasPremio) || 0;
   const tempoAverbadoAnos = Number(data.tempoAverbadoAnos) || 0;
   const tempoAverbadoDias = Number(data.tempoAverbadoDias) || 0;
+  const tempoAverbadoAnosUniversity =
+    Number(data.tempoAverbadoAnosUniversity) || 0;
   const diasDesconto = Number(data.diasDesconto) || 0;
   const afterFeriasAnuais = Number(data.afterFeriasAnuais) || 0;
   const afterFeriasPremio = Number(data.afterFeriasPremio) || 0;
@@ -52,7 +54,9 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
       feriasAnuais * 2 +
       feriasPremio * 2 +
       tempoAverbadoAnos * 365 +
-      tempoAverbadoDias);
+      tempoAverbadoDias +
+      tempoAverbadoAnosUniversity * 365);
+  // =10950-(K15+D5*2+D6*2+C7*365+D7+C9*365)
 
   // Cálculo do pedágio de tempo de serviço (K19)
   const pedagioTempoServico = Math.ceil(tempoFaltanteServico * 0.17);
@@ -64,7 +68,8 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
       1 -
       diasDesconto +
       feriasPremio +
-      feriasAnuais,
+      feriasAnuais +
+      tempoAverbadoAnosUniversity * 365,
   );
 
   const tempoApurado = tempo / 365;
@@ -137,8 +142,13 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
       afterFeriasAnuais +
       diasDesconto -
       feriasAnuais -
-      feriasPremio,
+      feriasPremio -
+      tempoAverbadoAnosUniversity * 365 -
+      afterTempoAverbadoAnos * 365,
   );
+
+  // =IFERROR(IF(C2>0;IF(C2+K24+L7-L6-L5+D8-D6-D5>E20;E20;C2+K24+L7-L6-L5+D8-D5-D6);"");"Data já atingida")
+  // =IFERROR(IF(C2>0;IF(C2+K24+L7-L6-L5+D8-D6-D5-C9*365-K8*365>E20;E20;C2+K24+L7-L6-L5+D8-D5-D6-C9*365-K8*365);"");"Nesse caso não há cálculo de pedágio.")
 
   const dataReservaCompulsoria = addDays(
     dataReferencia,
