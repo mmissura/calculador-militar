@@ -197,7 +197,7 @@ function App() {
                   Tempo averbado universitário
                   <CustomTooltip
                     className='w-72'
-                    content='Informe a soma do tempo que o militar tenha que possa vir a ser descontado do tempo de serviço, como prisões, suspensões, faltas ao serviço, situações funcionais diversas, etc. Devem ser considerados apenas os descontos anteriores a 01/01/2022.
+                    content='Este campo deve ser preenchido EXLUSIVAMENTE pelos militares QOS, que possuem o direito à averbação do tempo universitário, conforme o tempo de efetivo serviço. Deve-se informar apenas o tempo averbado adquirido antes de 01/01/2022.
 '
                   >
                     <IoIosInformationCircleOutline
