@@ -1,5 +1,10 @@
 import { Schema } from '../schemas/form.schema';
-import { addDays, isAfter } from 'date-fns';
+import {
+  addDays,
+  isAfter,
+  differenceInDays,
+  differenceInYears,
+} from 'date-fns';
 
 interface CalculatedResults {
   tempoFaltanteReserva: number;
@@ -12,12 +17,28 @@ interface CalculatedResults {
   dataReservaVoluntaria: Date;
   dataReservaVoluntariaMilitar: Date;
   dataReservaCompulsoria: Date;
+  dataTempoNaturezaMilitar: {
+    years: number;
+    days: number;
+  };
 }
 
 export const calculateServiceTime = (data: Schema): CalculatedResults => {
   // Data de referência fixa
   const dataReferencia = new Date('2022-01-01');
   const dataIngresso = new Date(data.dataIngresso);
+  const dataReferenceDinamic = new Date(data.dataReferenceDinamic);
+  // const getDifferenceInYears = differenceInYears(
+  //   new Date(dataReferenceDinamic),
+  //   new Date(dataIngresso),
+  // );
+
+  const getDifferenceInDays = differenceInDays(
+    new Date(dataReferenceDinamic),
+    new Date(dataIngresso),
+  );
+
+  // console.log(getDifferenceInYears, getDifferenceInDays);
 
   // Converter valores para números
   const feriasAnuais = Number(data.feriasAnuais) || 0;
@@ -57,6 +78,36 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
       tempoAverbadoDias +
       tempoAverbadoAnosUniversity * 365);
   // =10950-(K15+D5*2+D6*2+C7*365+D7+C9*365)
+
+  function convertDaysToYearsAndDays(totalDays: number) {
+    const baseDate = new Date(data.dataReferenceDinamic); // data base fixa
+    const targetDate = addDays(baseDate, totalDays);
+
+    const years = differenceInYears(targetDate, baseDate);
+    const days = differenceInDays(targetDate, addDays(baseDate, years * 365));
+
+    return { years, days };
+  }
+
+  const tempoFaltanteServicoNaturezaMilitar =
+    getDifferenceInDays +
+    1 -
+    diasDesconto +
+    feriasAnuais * 2 +
+    feriasPremio * 2 +
+    tempoAverbadoAnosUniversity * 365 +
+    tempoAverbadoDias +
+    tempoAverbadoAnos * 365 +
+    afterFeriasAnuais +
+    afterFeriasPremio -
+    afterDiasDesconto +
+    afterTempoAverbadoAnos * 365;
+  // =10950-(K15+D5*2+D6*2+C7*365+D7+C9*365)
+
+  console.log(
+    '>>>>>',
+    convertDaysToYearsAndDays(tempoFaltanteServicoNaturezaMilitar),
+  );
 
   // Cálculo do pedágio de tempo de serviço (K19)
   const pedagioTempoServico = Math.ceil(tempoFaltanteServico * 0.17);
@@ -171,5 +222,8 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
       ? dataReservaVoluntaria
       : dataReservaVoluntariaMilitar,
     dataReservaCompulsoria,
+    dataTempoNaturezaMilitar: convertDaysToYearsAndDays(
+      tempoFaltanteServicoNaturezaMilitar,
+    ),
   };
 };

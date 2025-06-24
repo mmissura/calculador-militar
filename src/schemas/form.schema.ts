@@ -10,6 +10,7 @@ export const formSchema = z.object({
     .max(new Date('2019-12-17'), {
       message: 'A data máxima para ingresso é 17/12/2019',
     }),
+  dataReferenceDinamic: z.any(),
   feriasAnuais: z.string().optional(),
   feriasPremio: z.string().optional(),
   tempoAverbadoAnos: z.string().optional(),

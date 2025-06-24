@@ -17,6 +17,9 @@ function App() {
     handleSubmit,
     formState: { errors },
   } = useForm<Schema>({
+    defaultValues: {
+      dataReferenceDinamic: new Date().toISOString().split('T')[0],
+    },
     resolver: zodResolver(formSchema),
   });
   const [results, setResults] = useState<ReturnType<
@@ -62,7 +65,7 @@ function App() {
       </header>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='2xl:max-w-1/2 xl:max-w-1/2 lg:max-w-1/2 w-full p-6 mx-auto'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 p-6 mx-auto'>
           <div className='w-full flex flex-col justify-center'>
             <label className='text-sm text-orange-400 mb-1 font-semibold'>
               Data de ingresso no CBMMG:
@@ -81,6 +84,25 @@ function App() {
                 {errors.dataIngresso.message}
               </p>
             )}
+          </div>
+          <div className='w-full flex flex-col justify-center'>
+            <label className='text-sm text-orange-400 mb-1 font-semibold'>
+              Data de referência:
+            </label>
+
+            <input
+              type='date'
+              // min={new Date().toISOString().split('T')[0]}
+              {...register('dataReferenceDinamic')}
+              className='w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400 data-[error]:border-red-600'
+              data-error={errors && errors.dataReferenceDinamic}
+            />
+            <span className='text-sm text-slate-500'>* Dia / Mês / Ano</span>
+            {/* {errors && errors.dataReferenceDinamic && (
+              <p className='text-sm text-red-500'>
+                {errors.dataReferenceDinamic.message}
+              </p>
+            )} */}
           </div>
         </div>
 
@@ -433,6 +455,17 @@ function App() {
                       {results.efetivoServicoExigido}
                     </p>
                   )}
+                </div>
+
+                <div className='xl:col-span-3 md:col-span-4 col-span-12 p-3'>
+                  <label className='text-sm text-slate-700 mb-1 font-semibold flex gap-1 items-center'>
+                    Tempo de natureza militar
+                  </label>
+
+                  <p className='text-lg font-semibold text-orange-500'>
+                    {results.dataTempoNaturezaMilitar.years} anos e{' '}
+                    {results.dataTempoNaturezaMilitar.days} dias
+                  </p>
                 </div>
               </div>
             </div>
