@@ -38,8 +38,6 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
     new Date(dataIngresso),
   );
 
-  // console.log(getDifferenceInYears, getDifferenceInDays);
-
   // Converter valores para números
   const feriasAnuais = Number(data.feriasAnuais) || 0;
   const feriasPremio = Number(data.feriasPremio) || 0;
@@ -81,7 +79,7 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
 
   function convertDaysToYearsAndDays(totalDays: number) {
     const baseDate = new Date(data.dataReferenceDinamic); // data base fixa
-    const targetDate = addDays(baseDate, totalDays);
+    const targetDate = addDays(baseDate, totalDays + 1);
 
     const years = differenceInYears(targetDate, baseDate);
     const days = differenceInDays(targetDate, addDays(baseDate, years * 365));
@@ -103,11 +101,6 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
     afterDiasDesconto +
     afterTempoAverbadoAnos * 365;
   // =10950-(K15+D5*2+D6*2+C7*365+D7+C9*365)
-
-  console.log(
-    '>>>>>',
-    convertDaysToYearsAndDays(tempoFaltanteServicoNaturezaMilitar),
-  );
 
   // Cálculo do pedágio de tempo de serviço (K19)
   const pedagioTempoServico = Math.ceil(tempoFaltanteServico * 0.17);

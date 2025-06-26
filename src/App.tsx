@@ -67,8 +67,18 @@ function App() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 p-6 mx-auto'>
           <div className='w-full flex flex-col justify-center'>
-            <label className='text-sm text-orange-400 mb-1 font-semibold'>
-              Data de ingresso no CBMMG:
+            <label className='text-sm text-orange-400 mb-1 font-semibold flex items-center gap-1'>
+              Data de ingresso no CBMMG:{' '}
+              <CustomTooltip
+                className='w-72'
+                content='Informe a data em que o militar ingressou na Instituição Militar Estadual (IME). A data utilizada para o cálculo do tempo de serviço, aplicação do pedágio e definição das datas de reserva. 
+                Apenas militares com ingresso até 17/12/2019 se enquadram nas regras de transição previstas pela Lei Complementar nº 168/2022.'
+              >
+                <IoIosInformationCircleOutline
+                  size={18}
+                  data-popover-target='default-popover'
+                />
+              </CustomTooltip>
             </label>
 
             <input
@@ -86,8 +96,17 @@ function App() {
             )}
           </div>
           <div className='w-full flex flex-col justify-center'>
-            <label className='text-sm text-orange-400 mb-1 font-semibold'>
-              Data de referência:
+            <label className='text-sm text-orange-400 mb-1 font-semibold flex items-center gap-1'>
+              Data de referência para o tempo de atividade militar:{' '}
+              <CustomTooltip
+                className='w-72'
+                content='Este campo vem preenchido automaticamente com a data atual , servindo como base para calcular o tempo total de atividade de natureza militar do usuário. A data pode ser alterada caso o militar deseje verificar essa informação em relação a outro momento específico. A alteração da data é opcional e não interfere nos demais cálculos da calculadora'
+              >
+                <IoIosInformationCircleOutline
+                  size={18}
+                  data-popover-target='default-popover'
+                />
+              </CustomTooltip>
             </label>
 
             <input
@@ -113,7 +132,7 @@ function App() {
             </h4>
             <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
               <div className='xl:col-span-4 col-span-12'>
-                <label className=' text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
+                <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Férias Anuais{' '}
                   <CustomTooltip
                     className='w-72'
