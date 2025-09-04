@@ -65,37 +65,36 @@ function App() {
       </header>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 p-6 mx-auto'>
-          <div className='w-full flex flex-col justify-center'>
-            <label className='text-sm text-orange-400 mb-1 font-semibold flex items-center gap-1'>
-              Data de ingresso no CBMMG:{' '}
-              <CustomTooltip
-                className='w-72'
-                content='Informe a data em que o militar ingressou na Instituição Militar Estadual (IME). A data utilizada para o cálculo do tempo de serviço, aplicação do pedágio e definição das datas de reserva. 
+        <div className='2xl:w-1/3 xl:w-1/3 lg:w-1/3 w-full mx-auto px-6 mb-6'>
+          <label className='text-sm text-orange-400 mb-1 font-semibold flex items-center gap-1'>
+            Data de ingresso no CBMMG:{' '}
+            <CustomTooltip
+              className='w-72'
+              content='Informe a data em que o militar ingressou na Instituição Militar Estadual (IME). A data utilizada para o cálculo do tempo de serviço, aplicação do pedágio e definição das datas de reserva. 
                 Apenas militares com ingresso até 17/12/2019 se enquadram nas regras de transição previstas pela Lei Complementar nº 168/2022.'
-              >
-                <IoIosInformationCircleOutline
-                  size={18}
-                  data-popover-target='default-popover'
-                />
-              </CustomTooltip>
-            </label>
+            >
+              <IoIosInformationCircleOutline
+                size={18}
+                data-popover-target='default-popover'
+              />
+            </CustomTooltip>
+          </label>
 
-            <input
-              type='date'
-              // max={new Date('2019-12-17').toISOString().split('T')[0]}
-              {...register('dataIngresso')}
-              className='w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400 data-[error]:border-red-600'
-              data-error={errors && errors.dataIngresso}
-            />
-            <span className='text-sm text-slate-500'>* Dia / Mês / Ano</span>
-            {errors && errors.dataIngresso && (
-              <p className='text-sm text-red-500'>
-                {errors.dataIngresso.message}
-              </p>
-            )}
-          </div>
-          <div className='w-full flex flex-col justify-center'>
+          <input
+            type='date'
+            // max={new Date('2019-12-17').toISOString().split('T')[0]}
+            {...register('dataIngresso')}
+            className='w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400 data-[error]:border-red-600'
+            data-error={errors && errors.dataIngresso}
+          />
+          <span className='text-sm text-slate-500'>* Dia / Mês / Ano</span>
+          {errors && errors.dataIngresso && (
+            <p className='text-sm text-red-500'>
+              {errors.dataIngresso.message}
+            </p>
+          )}
+        </div>
+        {/* <div className='w-full flex flex-col justify-center'>
             <label className='text-sm text-orange-400 mb-1 font-semibold flex items-center gap-1'>
               Data de referência para o tempo de atividade militar:{' '}
               <CustomTooltip
@@ -111,19 +110,12 @@ function App() {
 
             <input
               type='date'
-              // min={new Date().toISOString().split('T')[0]}
               {...register('dataReferenceDinamic')}
               className='w-full p-3 bg-white border rounded shadow-sm placeholder-slate-400 data-[error]:border-red-600'
               data-error={errors && errors.dataReferenceDinamic}
             />
             <span className='text-sm text-slate-500'>* Dia / Mês / Ano</span>
-            {/* {errors && errors.dataReferenceDinamic && (
-              <p className='text-sm text-red-500'>
-                {errors.dataReferenceDinamic.message}
-              </p>
-            )} */}
-          </div>
-        </div>
+          </div> */}
 
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mx-6 mb-10'>
           <div className='bg-slate-100 p-6 rounded-md shadow-md w-full'>
@@ -476,7 +468,7 @@ function App() {
                   )}
                 </div>
 
-                <div className='xl:col-span-3 md:col-span-4 col-span-12 p-3'>
+                {/* <div className='xl:col-span-3 md:col-span-4 col-span-12 p-3'>
                   <label className='text-sm text-slate-700 mb-1 font-semibold flex gap-1 items-center'>
                     Tempo de natureza militar
                   </label>
@@ -485,7 +477,7 @@ function App() {
                     {results.dataTempoNaturezaMilitar.years} anos e{' '}
                     {results.dataTempoNaturezaMilitar.days} dias
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
 

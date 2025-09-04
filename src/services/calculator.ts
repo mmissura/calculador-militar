@@ -27,7 +27,8 @@ export const calculateServiceTime = (data: Schema): CalculatedResults => {
   // Data de referência fixa
   const dataReferencia = new Date('2022-01-01');
   const dataIngresso = new Date(data.dataIngresso);
-  const dataReferenceDinamic = new Date(data.dataReferenceDinamic);
+  const dataReferenceDinamic = new Date();
+  // const dataReferenceDinamic = new Date(data.dataReferenceDinamic);
   // const getDifferenceInYears = differenceInYears(
   //   new Date(dataReferenceDinamic),
   //   new Date(dataIngresso),
