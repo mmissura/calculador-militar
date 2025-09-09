@@ -382,7 +382,7 @@ function App() {
               <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
                 <div className='xl:col-span-3 md:col-span-4 col-span-12'>
                   <label className='block text-sm text-slate-700 mb-1 font-semibold'>
-                    Tempo faltante da reserva remunerada e abono permanência
+                    Tempo faltante para reserva voluntária em 01/01/2022
                   </label>
 
                   {results.tempoFaltanteReserva <= 0 ? (
@@ -430,6 +430,7 @@ function App() {
                 <div className='xl:col-span-3 md:col-span-4 col-span-12'>
                   <label className='block text-sm text-slate-700 mb-1 font-semibold'>
                     Tempo faltante para transferência compulsória para reserva
+                    em 01/01/2022
                   </label>
                   <p className='text-lg font-semibold text-orange-500'>
                     {results.tempoFaltanteCompulsoria} dias
