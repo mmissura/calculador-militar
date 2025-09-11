@@ -119,11 +119,12 @@ function App() {
 
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mx-6 mb-10'>
           <div className='bg-slate-100 p-6 rounded-md shadow-md w-full'>
-            <h4 className='text-md font-semibold text-orange-400 mb-4 text-center'>
-              Dados anteriores a 01/01/2022{' '}
+            <h4 className='text-md text-blue-800 mb-4 text-center'>
+              DADOS <span className='font-bold text-xl'>ANTERIORES</span> a
+              01/01/2022{' '}
             </h4>
             <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
-              <div className='xl:col-span-4 col-span-12'>
+              <div className='xl:col-span-6 col-span-12'>
                 <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Férias Anuais{' '}
                   <CustomTooltip
@@ -135,6 +136,9 @@ function App() {
                       data-popover-target='default-popover'
                     />
                   </CustomTooltip>
+                  <span className='text-red-500 font-bold'>
+                    (NÃO UTILIZAR EM DOBRO)
+                  </span>
                 </label>
                 <input
                   type='number'
@@ -146,7 +150,7 @@ function App() {
                   * Férias anuais na vantagem de forma simples
                 </p>
               </div>
-              <div className='xl:col-span-4 col-span-12'>
+              <div className='xl:col-span-6 col-span-12'>
                 <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Férias Prêmio
                   <CustomTooltip
@@ -169,7 +173,7 @@ function App() {
                   * Férias-prêmio na vantagem de forma simples
                 </p>
               </div>
-              <div className='xl:col-span-4 col-span-12'>
+              <div className='xl:col-span-6 col-span-12'>
                 <label className='text-sm text-slate-700 mb-1 font-semibold flex items-center gap-1'>
                   Dias a serem descontados
                   <CustomTooltip
@@ -253,8 +257,9 @@ function App() {
           </div>
 
           <div className='bg-white p-6 rounded-md border border-slate-100 w-full'>
-            <h4 className='text-md font-semibold text-orange-400 mb-4 text-center'>
-              Dados posteriores a 01/01/2022
+            <h4 className='text-md text-black mb-4 text-center'>
+              DADOS <span className='font-bold text-xl'>POSTERIORES</span> a
+              01/01/2022
             </h4>
             <div className='grid xl:grid-cols-12 md:grid-cols-12 gap-4'>
               <div className='xl:col-span-6 col-span-12'>
@@ -269,6 +274,9 @@ function App() {
                       data-popover-target='default-popover'
                     />
                   </CustomTooltip>
+                  <span className='text-red-500 font-bold'>
+                    (NÃO UTILIZAR EM DOBRO)
+                  </span>
                 </label>
                 <input
                   type='number'
