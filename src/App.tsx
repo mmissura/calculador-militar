@@ -162,6 +162,9 @@ function App() {
                       data-popover-target='default-popover'
                     />
                   </CustomTooltip>
+                  <span className='text-red-500 font-bold'>
+                    (NÃO UTILIZAR EM DOBRO)
+                  </span>
                 </label>
                 <input
                   type='number'
@@ -300,6 +303,9 @@ function App() {
                       data-popover-target='default-popover'
                     />
                   </CustomTooltip>
+                  <span className='text-red-500 font-bold'>
+                    (NÃO UTILIZAR EM DOBRO)
+                  </span>
                 </label>
                 <input
                   type='number'
